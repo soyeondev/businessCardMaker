@@ -6,10 +6,10 @@ import Header from "../header/header";
 import Preview from "../preview/preview";
 import styles from "./maker.module.css";
 
-const Maker = ({ authService }) => {
+const Maker = ({ FileInput, authService }) => {
   const [cards, setCards] = useState([
     {
-      id: "1",
+      id: "0",
       name: "angela1",
       company: "Company",
       theme: "light",
@@ -20,7 +20,7 @@ const Maker = ({ authService }) => {
       fileURL: null,
     },
     {
-      id: "2",
+      id: "1",
       name: "angela2",
       company: "Company",
       theme: "dark",
@@ -31,7 +31,7 @@ const Maker = ({ authService }) => {
       fileURL: "ellie.png",
     },
     {
-      id: "3",
+      id: "2",
       name: "angela3",
       company: "Company",
       theme: "colorful",
@@ -55,16 +55,33 @@ const Maker = ({ authService }) => {
     });
   });
 
-  const addCard = (card) => {
-    const updated = [...cards, card];
-    setCards(updated);
+  const createOrUpdateCard = (card) => {
+    console.log("createOrUpdateCard");
+    console.log("createOrUpdateCard card: ", card);
+    setCards((cards) => {
+      console.log("cards: ", cards);
+      const updated = { ...cards };
+      console.log("updated cards: ", updated);
+      updated[card.id] = card;
+      return updated;
+    });
   };
+
+  // const addCard = (card) => {
+  //   const updated = [...cards, card];
+  //   setCards(updated);
+  // };
 
   return (
     <section className={styles.maker}>
       <Header onLogout={onLogout} />
       <div className={styles.container}>
-        <Editor cards={cards} addCard={addCard} />
+        <Editor
+          FileInput={FileInput}
+          cards={cards}
+          addCard={createOrUpdateCard}
+          updateCard={createOrUpdateCard}
+        />
         <Preview cards={cards} />
       </div>
       <Footer />
